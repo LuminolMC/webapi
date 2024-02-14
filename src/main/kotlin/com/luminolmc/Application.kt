@@ -3,6 +3,7 @@ package com.luminolmc
 import com.luminolmc.plugins.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
+import io.ktor.server.freemarker.*
 import io.ktor.server.netty.*
 
 fun main() {
@@ -11,5 +12,6 @@ fun main() {
 }
 
 fun Application.module() {
+    install(FreeMarker)
     configureRouting()
 }
