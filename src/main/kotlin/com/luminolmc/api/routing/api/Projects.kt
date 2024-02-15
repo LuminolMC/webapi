@@ -6,7 +6,7 @@ import io.ktor.server.routing.*
 
 fun Application.loadProjectsRoute() {
     routing {
-        route("/v1/projects") {
+        route("/v1/projects/luminol") {
             get {
                 var response = mapOf(
                     "code" to 200,

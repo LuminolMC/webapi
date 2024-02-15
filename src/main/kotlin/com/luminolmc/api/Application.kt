@@ -8,7 +8,6 @@ import io.ktor.server.engine.*
 import io.ktor.server.freemarker.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
-import javax.swing.text.AbstractDocument.Content
 
 fun main() {
     embeddedServer(Netty, port = 5555, host = "0.0.0.0", module = Application::module)
@@ -25,7 +24,7 @@ fun Application.installPlugins() {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
     }
     install(ContentNegotiation) {
-
+        jackson {}
     }
 }
 
