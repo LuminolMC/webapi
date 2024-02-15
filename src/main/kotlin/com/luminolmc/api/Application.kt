@@ -24,7 +24,7 @@ fun Application.installPlugins() {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
     }
     install(ContentNegotiation) {
-        jackson {}
+
     }
 }
 
