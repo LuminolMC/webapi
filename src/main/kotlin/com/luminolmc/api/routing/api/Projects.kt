@@ -18,5 +18,18 @@ fun Application.loadProjectsRoute() {
                 call.respond(response)
             }
         }
+
+        route("/v1/projects") {
+            get {
+                var response = listOf(
+                    mapOf(
+                        "id" to "luminol",
+                        "name" to "Luminol",
+                        "repo" to "LuminolMC/Luminol"
+                    )
+                )
+                call.respond(response)
+            }
+        }
     }
 }
