@@ -32,7 +32,7 @@ fun Application.installPlugins() {
     install(ContentNegotiation) {
         gson { }
     }
-    intercept(ApplicationCallPipeline.Features) {
+    intercept(ApplicationCallPipeline.Plugins) {
         call.response.header("Access-Control-Allow-Origin", "*")
     }
 }
