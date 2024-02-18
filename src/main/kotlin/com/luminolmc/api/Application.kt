@@ -8,6 +8,8 @@ import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.freemarker.*
+import io.ktor.features.*
+import io.ktor.http.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 
@@ -29,6 +31,17 @@ fun Application.installPlugins() {
     }
     install(ContentNegotiation) {
         gson { }
+    }
+    install(CORS) {
+        method(HttpMethod.Options)
+        method(HttpMethod.Put)
+        method(HttpMethod.Delete)
+        method(HttpMethod.Patch)
+        header(HttpHeaders.Authorization)
+        header(HttpHeaders.ContentType)
+        header(HttpHeaders.AccessControlAllowOrigin)
+        allowCredentials = true
+        anyHost()
     }
 }
 

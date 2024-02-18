@@ -17,7 +17,7 @@ fun Application.loadVersionRoute() {
                     "project_id" to "luminol",
                     "project_name" to "Luminol",
                     "version" to version,
-                    "build" to listOf(
+                    "builds" to listOf(
                         mapOf(
                             "build" to 1,
                             "time" to "2023-12-10T13:26:04.175Z",
