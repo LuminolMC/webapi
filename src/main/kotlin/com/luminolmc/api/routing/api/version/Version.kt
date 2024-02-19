@@ -13,7 +13,7 @@ fun Application.loadVersionRoute() {
                 val versions = basic.getVersions("LuminolMC/Luminol")
 
                 if (version !in versions)
-                    call.respondText("FUck")
+                    call.respondText("404")
 
                 val response = mapOf(
                     "code" to 200,
