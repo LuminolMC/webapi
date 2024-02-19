@@ -1,5 +1,6 @@
 package com.luminolmc.api.routing.api.version
 
+import com.luminolmc.api.data.basic
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
