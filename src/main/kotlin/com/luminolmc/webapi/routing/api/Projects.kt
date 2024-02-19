@@ -1,4 +1,4 @@
-package com.luminolmc.api.routing.api
+package com.luminolmc.webapi.routing.api
 
 import io.ktor.server.application.*
 import io.ktor.server.response.*

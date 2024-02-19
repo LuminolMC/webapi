@@ -8,11 +8,11 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
 }
 
-group = "com.luminolmc.api"
+group = "com.luminolmc.webapi"
 version = "0.0.1"
 
 application {
-    mainClass.set("com.luminolmc.api.ApplicationKt")
+    mainClass.set("com.luminolmc.webapi.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")

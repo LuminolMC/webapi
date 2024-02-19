@@ -1,8 +1,8 @@
-package com.luminolmc.api
+package com.luminolmc.webapi
 
-import com.luminolmc.api.routing.api.loadProjectsRoute
-import com.luminolmc.api.routing.api.version.loadVersionRoute
-import com.luminolmc.api.routing.loadMiscRoute
+import com.luminolmc.webapi.routing.api.loadProjectsRoute
+import com.luminolmc.webapi.routing.api.version.loadVersionRoute
+import com.luminolmc.webapi.routing.loadMiscRoute
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*

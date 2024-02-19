@@ -1,6 +1,6 @@
-package com.luminolmc.api
+package com.luminolmc.webapi
 
-import com.luminolmc.api.plugins.*
+import com.luminolmc.webapi.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*

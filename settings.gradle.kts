@@ -1,1 +1,1 @@
-rootProject.name = "Luminol API"
+rootProject.name = "webapi"
