@@ -1,5 +1,6 @@
 package com.luminolmc.webapi.routing.api
 
+import com.luminolmc.webapi.data.basic
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -18,26 +19,18 @@ fun Application.loadProjectsRoute() {
                 call.respond(response)
             }
         }
-        route("/v1/projects/luminol") {
+
+        route("/v1/projects/{project}") {
             get {
-                var response = mapOf(
-                    "code" to 200,
-                    "project_id" to "luminol",
-                    "project_name" to "Luminol",
+                val project = call.parameters["project"]
+                if (project !in basic.projects.keys) {
+                    call.respondText("404")
+                }
+                val response = mapOf(
+                    "project_id" to project,
+                    "project_name" to basic.projects[project],
                     "version_groups" to listOf("1.20"),
-                    "versions" to listOf("1.20.2", "1.20.4")
-                )
-                call.respond(response)
-            }
-        }
-        route("/v1/projects/lightingluminol") {
-            get {
-                var response = mapOf(
-                    "code" to 200,
-                    "project_id" to "lightingluminol",
-                    "project_name" to "LightingLuminol",
-                    "version_groups" to listOf("1.20"),
-                    "versions" to listOf("1.20.4")
+                    "versions" to basic.version[project]
                 )
                 call.respond(response)
             }

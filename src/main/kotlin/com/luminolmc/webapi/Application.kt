@@ -1,14 +1,14 @@
 package com.luminolmc.webapi
 
+import com.luminolmc.webapi.data.DataManager
 import com.luminolmc.webapi.routing.api.loadProjectsRoute
-import com.luminolmc.webapi.routing.api.version.loadVersionRoute
+import com.luminolmc.webapi.routing.api.loadVersionRoute
 import com.luminolmc.webapi.routing.loadMiscRoute
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.freemarker.*
-import io.ktor.http.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
@@ -23,6 +23,10 @@ fun Application.loadRoutes() {
     loadMiscRoute()
     loadProjectsRoute()
     loadVersionRoute()
+}
+
+fun Application.startDataManager() {
+    DataManager.startMainLoop()
 }
 
 fun Application.installPlugins() {
@@ -40,4 +44,5 @@ fun Application.installPlugins() {
 fun Application.module() {
     installPlugins()
     loadRoutes()
+    startDataManager()
 }

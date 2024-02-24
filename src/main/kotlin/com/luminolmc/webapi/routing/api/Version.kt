@@ -1,6 +1,6 @@
-package com.luminolmc.webapi.routing.api.version
+package com.luminolmc.webapi.routing.api
 
-import com.luminolmc.webapi.data.basic
+import com.luminolmc.webapi.data.GithubAPI
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -10,7 +10,7 @@ fun Application.loadVersionRoute() {
         route("/v1/projects/luminol/versions/{version}/builds") {
             get {
                 val version = call.parameters["version"]
-                val versions = basic.getVersions("LuminolMC/Luminol")
+                val versions = GithubAPI.fetchVersions("LuminolMC/Luminol")
 
                 if (version !in versions)
                     call.respondText("404")
