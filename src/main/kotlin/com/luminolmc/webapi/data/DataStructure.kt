@@ -4,7 +4,8 @@ class DataStructure {
     data class WorkflowRuns(
         val id: Long,
         val commit: String,
-        val artifactUrl: String
+        val artifactUrl: String,
+        val time: String
     )
 
     data class Build(

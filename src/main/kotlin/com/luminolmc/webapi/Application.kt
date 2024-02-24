@@ -1,5 +1,6 @@
 package com.luminolmc.webapi
 
+import com.luminolmc.webapi.data.Basic
 import com.luminolmc.webapi.data.DataManager
 import com.luminolmc.webapi.routing.api.loadProjectsRoute
 import com.luminolmc.webapi.routing.api.loadVersionRoute
@@ -12,11 +13,14 @@ import io.ktor.server.freemarker.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
+import io.ktor.util.logging.*
+
 
 
 fun main() {
-    embeddedServer(Netty, port = 5555, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
+    val app = embeddedServer(Netty, port = 5555, host = "0.0.0.0", module = Application::module)
+    Basic.logger = app.application.log
+    app.start(wait = true)
 }
 
 fun Application.loadRoutes() {
