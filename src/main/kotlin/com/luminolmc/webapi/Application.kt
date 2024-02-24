@@ -25,10 +25,6 @@ fun Application.loadRoutes() {
     loadVersionRoute()
 }
 
-fun Application.startDataManager() {
-    DataManager.startMainLoop()
-}
-
 fun Application.installPlugins() {
     install(FreeMarker) {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
@@ -39,6 +35,10 @@ fun Application.installPlugins() {
     intercept(ApplicationCallPipeline.Plugins) {
         call.response.header("Access-Control-Allow-Origin", "*")
     }
+}
+
+fun startDataManager() {
+    DataManager.startMainLoop()
 }
 
 fun Application.module() {

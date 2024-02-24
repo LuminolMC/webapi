@@ -1,26 +1,23 @@
 package com.luminolmc.webapi.data
 
-import io.ktor.server.application.*
-import io.netty.util.concurrent.CompleteFuture
-import java.util.concurrent.CompletableFuture
-
 object DataManager {
     val fetchThread = Thread(::mainLoop)
-    var interval = 5000L
+    var interval = 1000L * 60 * 10 // ten minutes
 
     fun startMainLoop() {
         fetchThread.start()
     }
 
     private fun mainLoop() {
-        basic.repo.forEach { (project, repo) ->
+        Basic.repo.forEach { (project, repo) ->
             val version = GithubAPI.fetchVersions(repo)
-            basic.version[project] = version
+            Basic.version[project] = version
         }
         println("Refreshed")
-        println(basic.version)
+        println(Basic.version)
         // Get versions/branches
         while (true) {
+
             Thread.sleep(interval)
         }
     }

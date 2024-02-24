@@ -2,6 +2,7 @@ package com.luminolmc.webapi.data
 
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -53,13 +54,46 @@ object GithubAPI {
         val versions: MutableList<String> = mutableListOf()
 
         branches.forEach {
-            versions.add(it.name)
+            versions.add(it.name.removePrefix("ver/"))
         }
 
         return versions
     }
 
-    fun fetchActions(repo: String) {
+    fun fetchActions(repo: String): List<DataStructure.WorkflowRuns> {
+        val url = "https://api.github.com/repos/${repo}/actions/runs"
+        val gson = Gson()
+        val json = fetchUrl(url)
+        if (json.isEmpty())
+            return listOf()
+        val actionMapType = object : TypeToken<Map<String, Any>>() {}.type
+        val action: Map<String, Any> = gson.fromJson(json, actionMapType)
+        val run = action["workflow_runs"] as List<Map<String, Any>>
+        val buildList = mutableListOf<DataStructure.WorkflowRuns>()
+        run.forEach { i ->
+            val runId = i["id"] as Long
+            val commit = i["head_sha"] as String
+            val artifactUrl = fetchArtifact(repo, runId)
+            buildList.add(DataStructure.WorkflowRuns(
+                id = runId,
+                commit = commit,
+                artifactUrl = artifactUrl
+            ))
+        }
+        return buildList
+    }
 
+    private fun fetchArtifact(repo: String, runId: Long): String {
+        val url = "https://api.github.com/repos/${repo}/actions/runs/${runId}/artifacts"
+        val gson = Gson()
+        val json = fetchUrl(url)
+        if (json.isEmpty())
+            return ""
+        val typeToken = object : TypeToken<Map<String, Any>>() {}.type
+        val artifact: Map<String, Any> = gson.fromJson(json, typeToken)
+        val artifacts: List<Map<String, Any>> = artifact["artifacts"] as List<Map<String, Any>>
+        val artifactUrl = artifacts[0]["archive_download_url"] as String
+        return artifactUrl
+        // 狗日的,这他妈怎么解析，解析你老母
     }
 }

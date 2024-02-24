@@ -1,19 +1,35 @@
 package com.luminolmc.webapi.routing.api
 
 import com.luminolmc.webapi.data.GithubAPI
+import com.luminolmc.webapi.data.Basic
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.loadVersionRoute() {
     routing {
+        route("/v1/projects/{project}/versions/{version}/builds") {
+            get {
+                val project = call.parameters["project"]!!
+                val version = call.parameters["version"]!!
+
+                if (project !in Basic.projects.keys)
+                    call.respondText("project not found")
+                if (version !in Basic.version[project]!!)
+                    call.respondText("version not found")
+
+
+            }
+        }
+
+
         route("/v1/projects/luminol/versions/{version}/builds") {
             get {
                 val version = call.parameters["version"]
                 val versions = GithubAPI.fetchVersions("LuminolMC/Luminol")
 
-                if (version !in versions)
-                    call.respondText("404")
+//                if (version !in versions)
+//                    call.respondText("404")
 
                 val response = mapOf(
                     "code" to 200,
@@ -49,11 +65,11 @@ fun Application.loadVersionRoute() {
                 call.respond(response)
             }
         }
-        route("/v1/projects/lightingluminol/versions/{version}/builds") {
+        route("/v1/projects/lightingluminol/versions/{version...}/builds") {
             get {
                 val version = call.parameters["version"]
-                if (version != "1.20.4")
-                    call.respondText("404")
+//                if (version != "1.20.4")
+//                    call.respondText("404")
                 val response = mapOf(
                     "code" to 200,
                     "project_id" to "lightingluminol",

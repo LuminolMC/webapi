@@ -1,6 +1,12 @@
-package com.luminolmc.webapi.data.dataStructure
+package com.luminolmc.webapi.data
 
-class Builds {
+class DataStructure {
+    data class WorkflowRuns(
+        val id: Long,
+        val commit: String,
+        val artifactUrl: String
+    )
+
     data class Build(
         val build: Int,
         val time: String,
