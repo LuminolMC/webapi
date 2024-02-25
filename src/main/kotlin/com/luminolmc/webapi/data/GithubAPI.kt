@@ -10,8 +10,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 object GithubAPI {
-    // val token = "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"
-    val token = "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"
+    val token = "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"
 
     data class Branches(
         val name: String,
@@ -58,7 +57,7 @@ object GithubAPI {
         val versions: MutableList<String> = mutableListOf()
 
         branches.forEach {
-            versions.add(it.name.removePrefix("ver/"))
+            versions.add(it.name.removeSuffix("ver/"))
         }
 
         return versions
