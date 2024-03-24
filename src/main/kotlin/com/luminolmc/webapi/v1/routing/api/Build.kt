@@ -1,7 +1,6 @@
-package com.luminolmc.webapi.routing.api
+package com.luminolmc.webapi.v1.routing.api
 
-import com.luminolmc.webapi.data.GithubAPI
-import com.luminolmc.webapi.data.Basic
+import com.luminolmc.webapi.v1.data.Basic
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*

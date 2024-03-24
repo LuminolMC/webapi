@@ -1,4 +1,4 @@
-package com.luminolmc.webapi.routing
+package com.luminolmc.webapi.v1.routing
 
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*

@@ -31,6 +31,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("com.electronwill.night-config:toml:3.6.0")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

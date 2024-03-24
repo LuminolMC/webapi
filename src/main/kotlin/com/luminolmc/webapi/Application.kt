@@ -1,10 +1,10 @@
 package com.luminolmc.webapi
 
-import com.luminolmc.webapi.data.Basic
-import com.luminolmc.webapi.data.DataManager
-import com.luminolmc.webapi.routing.api.loadProjectsRoute
-import com.luminolmc.webapi.routing.api.loadVersionRoute
-import com.luminolmc.webapi.routing.loadMiscRoute
+import com.luminolmc.webapi.v1.data.Basic
+import com.luminolmc.webapi.v1.data.DataManager
+import com.luminolmc.webapi.v1.routing.api.loadProjectsRoute
+import com.luminolmc.webapi.v1.routing.api.loadVersionRoute
+import com.luminolmc.webapi.v1.routing.loadMiscRoute
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
@@ -13,8 +13,6 @@ import io.ktor.server.freemarker.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
-import io.ktor.util.logging.*
-
 
 
 fun main() {
@@ -37,8 +35,13 @@ fun Application.installPlugins() {
         gson { }
     }
     intercept(ApplicationCallPipeline.Plugins) {
+        // configure CORS
         call.response.header("Access-Control-Allow-Origin", "*")
     }
+}
+
+fun Application.loadConfig() {
+    ConfigManager.loadConfig()
 }
 
 fun startDataManager() {
@@ -49,4 +52,5 @@ fun Application.module() {
     installPlugins()
     loadRoutes()
     startDataManager()
+    loadConfig()
 }

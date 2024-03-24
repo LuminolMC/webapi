@@ -1,4 +1,4 @@
-package com.luminolmc.webapi.data
+package com.luminolmc.webapi.v1.data
 
 class DataStructure {
     data class WorkflowRuns(

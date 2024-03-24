@@ -1,7 +1,7 @@
-package com.luminolmc.webapi.data
+package com.luminolmc.webapi.v1.data
 
 object DataManager {
-    val fetchThread = Thread(::mainLoop)
+    val fetchThread = Thread(DataManager::mainLoop)
     var interval = 1000L * 60 * 10 // ten minutes
 
     fun startMainLoop() {
