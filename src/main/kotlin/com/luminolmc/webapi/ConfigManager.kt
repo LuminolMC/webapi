@@ -14,9 +14,11 @@ object ConfigManager {
         "luminol" to mutableListOf("Luminol", "LuminolMC/Luminol"),
         "lightingluminol" to mutableListOf("LightingLuminol", "LuminolMC/Luminol")
     )
-    var jenkin = mutableMapOf(
-        "url" to "http://example.com",
-        "token" to "token"
+    val database = mutableMapOf(
+        "url" to "",
+        "username" to "",
+        "password" to "",
+        "dbname" to ""
     )
 
     fun loadConfig() {
@@ -39,9 +41,12 @@ object ConfigManager {
                 config.get<String>("projects.${key}.repo")
             )
         }
-
-        jenkin["url"] = config.get<String>("jenkins.url")
-        jenkin["token"] = config.get<String>("jenkins.token")
+        database.apply {
+            set("url", config.get<String>("database.url"))
+            set("username", config.get<String>("database.username"))
+            set("password", config.get<String>("database.password"))
+            set("dbname", config.get<String>("database.dbname"))
+        }
     }
 
     private fun initConfig() {
@@ -50,8 +55,9 @@ object ConfigManager {
             config.set<String>("projects.${t}.name", u[0])
             config.set<String>("projects.${t}.repo", u[1])
         }
-        config.set<String>("jenkins.url", jenkin["url"])
-        config.set<String>("jenkins.token", jenkin["token"])
+        database.forEach { (t, u) ->
+            config.set<String>("database.${t}", u)
+        }
         config.save()
     }
 }

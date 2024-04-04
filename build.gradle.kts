@@ -34,4 +34,6 @@ dependencies {
     implementation("com.electronwill.night-config:toml:3.6.0")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+
+    implementation("mysql:mysql-connector-java:8.0.21")
 }
