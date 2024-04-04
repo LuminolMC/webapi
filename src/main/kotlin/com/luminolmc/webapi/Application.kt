@@ -1,5 +1,7 @@
 package com.luminolmc.webapi
 
+import com.luminolmc.webapi.common.loadIndexPageRoute
+import com.luminolmc.webapi.v2.data.DatabaseManager
 import com.luminolmc.webapi.v2.routing.loadProjectRouteV2
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.serialization.gson.*
@@ -16,8 +18,18 @@ fun main() {
     app.start(wait = true)
 }
 
-fun Application.loadRoutes() {
-    loadProjectRouteV2()
+fun Application.module() {
+    installPlugins()
+    loadRoutes()
+    loadConfig()
+    ConfigManager.database.apply {
+        DatabaseManager.connect(
+            url = get("url")!!,
+            username = get("username")!!,
+            password = get("password")!!,
+            dbname = get("dbname")!!
+        )
+    }
 }
 
 fun Application.installPlugins() {
@@ -33,12 +45,13 @@ fun Application.installPlugins() {
     }
 }
 
-fun Application.loadConfig() {
+fun Application.loadRoutes() {
+    loadIndexPageRoute()
+    loadProjectRouteV2()
+}
+
+fun loadConfig() {
     ConfigManager.loadConfig()
 }
 
-fun Application.module() {
-    installPlugins()
-    loadRoutes()
-    loadConfig()
-}
+

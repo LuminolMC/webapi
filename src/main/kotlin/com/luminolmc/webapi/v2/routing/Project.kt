@@ -23,5 +23,9 @@ fun Application.loadProjectRouteV2() {
                 call.respond(projects)
             }
         }
+
+        route("v2/projects/{project}") {
+            
+        }
     }
 }

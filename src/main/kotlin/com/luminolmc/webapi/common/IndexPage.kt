@@ -1,13 +1,13 @@
-package com.luminolmc.webapi.routing
+package com.luminolmc.webapi.common
 
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
-fun Application.loadMiscRoute() {
+fun Application.loadIndexPageRoute() {
     routing {
         get("/") {
             val dsl = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
@@ -18,3 +18,6 @@ fun Application.loadMiscRoute() {
         }
     }
 }
+
+
+
