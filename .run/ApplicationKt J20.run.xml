@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ApplicationKt J20" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.luminolmc.webapi.ApplicationKt" />
-    <module name="webapi.main" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
-</component>
