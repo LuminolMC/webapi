@@ -30,7 +30,7 @@
     <h3>This is the backend of LuminolMC</h3>
     <ul>
         <li>The page is maintained by LuminolMC Team</li>
-        <li>Time > ${time}</li>
+        <li>Time > ${time} | ${time_fmt}</li>
     </ul>
 </div>
 </body>
