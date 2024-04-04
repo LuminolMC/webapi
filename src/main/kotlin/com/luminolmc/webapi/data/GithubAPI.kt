@@ -1,4 +1,4 @@
-package com.luminolmc.webapi.v1.data
+package com.luminolmc.webapi.data
 
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName

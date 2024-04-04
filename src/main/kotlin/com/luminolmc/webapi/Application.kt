@@ -1,10 +1,6 @@
 package com.luminolmc.webapi
 
-import com.luminolmc.webapi.v1.data.Basic
-import com.luminolmc.webapi.v1.data.DataManager
-import com.luminolmc.webapi.v1.routing.api.loadProjectsRoute
-import com.luminolmc.webapi.v1.routing.api.loadVersionRoute
-import com.luminolmc.webapi.v1.routing.loadMiscRoute
+import com.luminolmc.webapi.v2.routing.loadProjectRouteV2
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
@@ -17,14 +13,11 @@ import io.ktor.server.response.*
 
 fun main() {
     val app = embeddedServer(Netty, port = 5555, host = "0.0.0.0", module = Application::module)
-    Basic.logger = app.application.log
     app.start(wait = true)
 }
 
 fun Application.loadRoutes() {
-    loadMiscRoute()
-    loadProjectsRoute()
-    loadVersionRoute()
+    loadProjectRouteV2()
 }
 
 fun Application.installPlugins() {
@@ -44,13 +37,8 @@ fun Application.loadConfig() {
     ConfigManager.loadConfig()
 }
 
-fun startDataManager() {
-    DataManager.startMainLoop()
-}
-
 fun Application.module() {
     installPlugins()
     loadRoutes()
-    startDataManager()
     loadConfig()
 }
