@@ -9,7 +9,7 @@ class Struct {
     )
 
     data class Build(
-        @Nullable var buildId: Int,
+        @Nullable var buildId: Int?,
         val project: String,
         val version: Version,
         val time: Long,

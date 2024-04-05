@@ -1,12 +1,8 @@
 package com.luminolmc.webapi.v2.data
 
 import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
-import io.ktor.http.ContentType.Application.Json
 import java.sql.Connection
 import java.sql.DriverManager
-import java.sql.Statement
 import java.sql.Timestamp
 
 object DatabaseManager {
@@ -40,6 +36,27 @@ object DatabaseManager {
         return versions
     }
 
+    fun getSubVersion(project: String): List<String> {
+        val versions = getVersion(project)
+        val subVersions = emptyList<String>().toMutableList()
+        versions.forEach { (t, u) ->
+            u.forEach { subVersion ->
+                if (subVersion.isNotEmpty())
+                    subVersions.add(subVersion)
+            }
+        }
+        return subVersions
+    }
+
+    fun whichVersionGroup(project: String, version: String): String? {
+        val versions = getVersion(project)
+        versions.forEach { (t, u) ->
+            if (version in u)
+                return t
+        }
+        return null
+    }
+
     fun getBuild(project: String, version: Struct.Version): List<Struct.Build> {
         val versionGroup = version.versionGroup
         val versionStr = version.version
@@ -70,7 +87,7 @@ object DatabaseManager {
         return builds
     }
 
-    fun convertJsonChanges(changes: String): List<Struct.Change> {
+    private fun convertJsonChanges(changes: String): List<Struct.Change> {
         return Gson().fromJson(changes, Array<Struct.Change>::class.java).toList()
     }
 
@@ -80,10 +97,14 @@ object DatabaseManager {
     fun getLatestBuildId(project: String, version: Struct.Version): Int {
         val builds = getBuild(project, version)
         val buildIds = emptyList<Int>().toMutableList()
-        builds.forEach {
-            buildIds.add(it.buildId)
+        try {
+            builds.forEach {
+                buildIds.add(it.buildId!!)
+            }
+            return buildIds.max()
+        } catch (e: Exception) {  // 如果这里抛出异常代表数据库没有关于这个版本的构建, 直接返回0
+            return 0
         }
-        return buildIds.max()
     }
 
     /**
@@ -95,8 +116,8 @@ object DatabaseManager {
      * @param build Build data (The build ID should be null, and the build ID value will be discarded even if it is not null)
      */
     @Synchronized
-    fun commitBuild(project: String, build: Struct.Build): Int {
-        val newCommitId = getLatestBuildId(project, build.version) + 1
+    fun commitBuild(build: Struct.Build): Int {
+        val newCommitId = getLatestBuildId(build.project, build.version) + 1
         val statement = conn.prepareStatement(SQLCommand.COMMIT_BUILD.toString())
         build.buildId = newCommitId
         statement.apply {

@@ -8,7 +8,7 @@ object ConfigManager {
     private val configName = "config.toml"
     private val configFile = File(configName)
     private val config = FileConfig.of(configFile)
-    private var token = "token"
+    var token = "token"
 
     val projects = mutableMapOf(
         "luminol" to mutableListOf("Luminol", "LuminolMC/Luminol"),
