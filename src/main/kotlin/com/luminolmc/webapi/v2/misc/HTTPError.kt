@@ -1,8 +1,8 @@
 package com.luminolmc.webapi.v2.misc
 
-enum class HTTPErrorEnum(
-    val code: Int,
-    val message: String
+enum class HTTPError(
+    private val code: Int,
+    private val message: String
 ) {
     NOT_FOUND(404, "Not found");
 
