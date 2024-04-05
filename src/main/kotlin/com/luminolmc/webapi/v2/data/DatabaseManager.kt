@@ -1,5 +1,9 @@
 package com.luminolmc.webapi.v2.data
 
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import io.ktor.http.ContentType.Application.Json
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.Statement
@@ -14,17 +18,21 @@ object DatabaseManager {
         this.dbname = dbname
     }
 
-    fun getVersion(project: String): Map<String, String> {
+    fun getVersion(project: String): Map<String, List<String>> {
         val statement = conn.createStatement()
         val resultSet = statement.executeQuery(SQLCommand.GET_VERSION.toString())
-        val versions = emptyMap<String, String>().toMutableMap()
+        val versions = emptyMap<String, MutableList<String>>().toMutableMap()
 
         while (resultSet.next()) {
             if (resultSet.getString("project") == project) {
                 resultSet.apply {
                     val versionGroup = getString("version_group")
                     val version = getString("version")
-                    versions[versionGroup] = version
+                    if (versionGroup !in versions) {
+                        versions[versionGroup] = mutableListOf(version)
+                    } else {
+                        versions[versionGroup]?.add(version)
+                    }
                 }
             }
         }
@@ -49,15 +57,45 @@ object DatabaseManager {
                     time = getTimestamp("time").time,
                     jarName = getString("jar_name"),
                     sha256 = getString("sha256"),
-                    summary = getString("summary"),
-                    message = getString("message"),
+                    changes = convertJsonChanges(getString("changes")),
                     version = Struct.Version(versionGroup, versionStr),
-                    project = project
+                    project = project,
+                    releaseTag = getString("release_tag")
                 )
                 builds.add(build)
             }
         }
 
         return builds
+    }
+
+    fun convertJsonChanges(changes: String): List<Struct.Change> {
+        val changesResult = emptyList<Struct.Change>().toMutableList()
+        Gson().fromJson(changes, Struct.Changes::class.java)
+        return changesResult
+    }
+
+    fun getLatestBuildId(project: String, version: Struct.Version): Int {
+        val builds = getBuild(project, version)
+        val buildIds = emptyList<Int>().toMutableList()
+        builds.forEach {
+            buildIds.add(it.buildId)
+        }
+        return buildIds.max()
+    }
+
+    /**
+     * Commit build to database
+     * This is a thread unsafe operation since it will generate a new build ID based on the maximum value of the build ID in the database.
+     * It must be ensured that this new build ID will not be duplicated in a concurrent environment
+     *
+     * @param project Project ID (In lower case)
+     * @param build Build data (The build ID should be null, and the build ID value will be discarded even if it is not null)
+     */
+    @Synchronized
+    fun commitBuild(project: String, build: Struct.Build) {
+        val newCommitId = getLatestBuildId(project, build.version) + 1
+        build.buildId = newCommitId
+        
     }
 }
