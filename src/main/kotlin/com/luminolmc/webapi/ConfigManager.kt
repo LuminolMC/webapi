@@ -12,7 +12,7 @@ object ConfigManager {
 
     val projects = mutableMapOf(
         "luminol" to mutableListOf("Luminol", "LuminolMC/Luminol"),
-        "lightingluminol" to mutableListOf("LightingLuminol", "LuminolMC/Luminol")
+        "lightingluminol" to mutableListOf("LightingLuminol", "LuminolMC/LightingLuminol")
     )
     val database = mutableMapOf(
         "url" to "jdbc:mysql://lolicon.fit:3306/lumsite",

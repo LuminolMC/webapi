@@ -36,7 +36,7 @@ fun Application.loadDownloadRouteV2() {
                 } else if (method == build.jarName) {
                     call.respondRedirect(githubUrl, permanent = false)
                 } else {
-                    call.respond(HTTPError.FORBIDDEN)
+                    call.respond(HTTPError.FORBIDDEN.getHTTPResponse())
                 }
             }
         }
