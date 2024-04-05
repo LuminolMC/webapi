@@ -26,6 +26,7 @@ fun Application.loadCommitBuildRouteV2() {
                 val releaseTag = call.parameters["release_tag"]!!
                 val sha256 = call.parameters["sha_256"]!!
                 val time = call.parameters["time"]!!
+                val channel = call.parameters["channel"]!!
 
                 val changes = Gson().fromJson(changesJson, Array<Struct.Change>::class.java).toList()
                 val build = Struct.Build(
@@ -36,7 +37,8 @@ fun Application.loadCommitBuildRouteV2() {
                     sha256 = sha256,
                     jarName = jarName,
                     releaseTag = releaseTag,
-                    time = time.toLong()
+                    time = time.toLong(),
+                    channel = channel
                 )
                 DatabaseManager.commitBuild(build)
             }

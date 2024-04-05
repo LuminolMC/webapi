@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
         )
     }
 
-    val a = DatabaseManager.getBuild(
+    val a = DatabaseManager.getAllBuild(
         "luminol",
         Struct.Version("1.20", "1.20.4")
     )

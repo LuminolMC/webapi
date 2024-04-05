@@ -2,6 +2,9 @@ package com.luminolmc.webapi
 
 import com.luminolmc.webapi.common.loadIndexPageRoute
 import com.luminolmc.webapi.v2.data.DatabaseManager
+import com.luminolmc.webapi.v2.routing.loadBuildRouteV2
+import com.luminolmc.webapi.v2.routing.loadCommitBuildRouteV2
+import com.luminolmc.webapi.v2.routing.loadDownloadRouteV2
 import com.luminolmc.webapi.v2.routing.loadProjectRouteV2
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.serialization.gson.*
@@ -50,6 +53,9 @@ fun Application.installPlugins() {
 fun Application.loadRoutes() {
     loadIndexPageRoute()
     loadProjectRouteV2()
+    loadBuildRouteV2()
+    loadCommitBuildRouteV2()
+    loadDownloadRouteV2()
 }
 
 fun loadConfig() {

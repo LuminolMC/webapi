@@ -31,4 +31,18 @@ class Struct {
         val summary: String,
         val message: String
     )
+
+    data class Download(
+        val name: String,
+        val sha256: String
+    )
+
+    data class DownloadBuild(
+        val build: Int,
+        val time: String,
+        val channel: String = "default",
+        val changes: List<Change>,
+        val promoted: Boolean = false,
+        val downloads: Map<String, Download>
+    )
 }

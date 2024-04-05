@@ -57,7 +57,7 @@ object DatabaseManager {
         return null
     }
 
-    fun getBuild(project: String, version: Struct.Version): List<Struct.Build> {
+    fun getAllBuild(project: String, version: Struct.Version): List<Struct.Build> {
         val versionGroup = version.versionGroup
         val versionStr = version.version
         val statement = conn.createStatement()
@@ -88,6 +88,16 @@ object DatabaseManager {
         return builds
     }
 
+    fun getBuild(project: String, version: Struct.Version, buildId: Int): Struct.Build? {
+        val builds = getAllBuild(project, version)
+
+        builds.forEach {
+            if (it.buildId == buildId)
+                return it
+        }
+        return null
+    }
+
     private fun convertJsonChanges(changes: String): List<Struct.Change> {
         return Gson().fromJson(changes, Array<Struct.Change>::class.java).toList()
     }
@@ -96,7 +106,7 @@ object DatabaseManager {
      *
      */
     fun getLatestBuildId(project: String, version: Struct.Version): Int {
-        val builds = getBuild(project, version)
+        val builds = getAllBuild(project, version)
         val buildIds = emptyList<Int>().toMutableList()
         try {
             builds.forEach {
