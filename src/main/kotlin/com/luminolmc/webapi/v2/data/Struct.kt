@@ -30,8 +30,4 @@ class Struct {
         val summary: String,
         val message: String
     )
-
-    data class Changes(
-        val changes: List<Change>
-    )
 }

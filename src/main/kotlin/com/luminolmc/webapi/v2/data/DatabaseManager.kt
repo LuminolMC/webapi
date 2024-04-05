@@ -7,6 +7,7 @@ import io.ktor.http.ContentType.Application.Json
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.Statement
+import java.sql.Timestamp
 
 object DatabaseManager {
     lateinit var conn: Connection
@@ -70,11 +71,12 @@ object DatabaseManager {
     }
 
     fun convertJsonChanges(changes: String): List<Struct.Change> {
-        val changesResult = emptyList<Struct.Change>().toMutableList()
-        Gson().fromJson(changes, Struct.Changes::class.java)
-        return changesResult
+        return Gson().fromJson(changes, Array<Struct.Change>::class.java).toList()
     }
 
+    /**
+     *
+     */
     fun getLatestBuildId(project: String, version: Struct.Version): Int {
         val builds = getBuild(project, version)
         val buildIds = emptyList<Int>().toMutableList()
@@ -93,9 +95,19 @@ object DatabaseManager {
      * @param build Build data (The build ID should be null, and the build ID value will be discarded even if it is not null)
      */
     @Synchronized
-    fun commitBuild(project: String, build: Struct.Build) {
+    fun commitBuild(project: String, build: Struct.Build): Int {
         val newCommitId = getLatestBuildId(project, build.version) + 1
+        val statement = conn.prepareStatement(SQLCommand.COMMIT_BUILD.toString())
         build.buildId = newCommitId
-        
+        statement.apply {
+            setInt(1, newCommitId)
+            setTimestamp(2, Timestamp(build.time))
+            setString(3, build.jarName)
+            setString(4, build.sha256)
+            setString(5, Gson().toJson(build.changes))
+            setString(6, build.project)
+            setString(7, build.version.versionGroup)
+        }
+        return statement.executeUpdate()
     }
 }

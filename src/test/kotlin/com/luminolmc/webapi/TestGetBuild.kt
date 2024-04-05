@@ -21,4 +21,6 @@ fun main(args: Array<String>) {
     )
 
     println(a.toString())
+    println(a.size)
+    println(DatabaseManager.getLatestBuildId("luminol", Struct.Version("1.20", "1.20.4")))
 }

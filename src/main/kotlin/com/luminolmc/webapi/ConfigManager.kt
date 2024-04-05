@@ -8,6 +8,7 @@ object ConfigManager {
     private val configName = "config.toml"
     private val configFile = File(configName)
     private val config = FileConfig.of(configFile)
+    private var token = "token"
 
     val projects = mutableMapOf(
         "luminol" to mutableListOf("Luminol", "LuminolMC/Luminol"),
@@ -47,10 +48,12 @@ object ConfigManager {
             set("password", config.get("database.password"))
             set("dbname", config.get("database.dbname"))
         }
+        token = config.get("token")
     }
 
     private fun initConfig() {
         config.set<List<String>>("projects.projects", projects.keys.toList())
+        config.set<String>("token", token)
         projects.forEach { (t, u) ->
             config.set<String>("projects.${t}.name", u[0])
             config.set<String>("projects.${t}.repo", u[1])

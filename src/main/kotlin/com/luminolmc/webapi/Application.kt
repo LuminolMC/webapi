@@ -13,6 +13,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 
 
+
 fun main() {
     val app = embeddedServer(Netty, port = 5555, host = "0.0.0.0", module = Application::module)
     app.start(wait = true)
@@ -39,6 +40,7 @@ fun Application.installPlugins() {
     install(ContentNegotiation) {
         gson { }
     }
+
     intercept(ApplicationCallPipeline.Plugins) {
         // configure CORS
         call.response.header("Access-Control-Allow-Origin", "*")
