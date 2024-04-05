@@ -9,8 +9,8 @@ enum class SQLCommand(private var command: String) {
     ),
     COMMIT_BUILD(
         "INSERT INTO BUILD" +
-                " (id, time, jar_name, sha256, changes, project, version_group, version, release_tag)" +
-                " VALUES (?,?,?,?,?,?,?,?,?,?)",
+                " (id, time, jar_name, sha256, changes, project, version_group, version, release_tag, channel)" +
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?)",
     )
     ;
 

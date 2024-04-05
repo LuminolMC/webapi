@@ -16,7 +16,8 @@ class Struct {
         val jarName: String,
         val sha256: String,
         val changes: List<Change>,
-        val releaseTag: String
+        val releaseTag: String,
+        val channel: String
     )
 
     data class Project(

@@ -78,7 +78,8 @@ object DatabaseManager {
                     changes = convertJsonChanges(getString("changes")),
                     version = Struct.Version(versionGroup, versionStr),
                     project = project,
-                    releaseTag = getString("release_tag")
+                    releaseTag = getString("release_tag"),
+                    channel = getString("channel")
                 )
                 builds.add(build)
             }
@@ -128,6 +129,7 @@ object DatabaseManager {
             setString(5, Gson().toJson(build.changes))
             setString(6, build.project)
             setString(7, build.version.versionGroup)
+            setString(8, build.channel)
         }
         return statement.executeUpdate()
     }
