@@ -150,7 +150,6 @@ object DatabaseManager {
      * This is a thread unsafe operation since it will generate a new build ID based on the maximum value of the build ID in the database.
      * It must be ensured that this new build ID will not be duplicated in a concurrent environment
      *
-     * @param project Project ID (In lower case)
      * @param build Build data (The build ID should be null, and the build ID value will be discarded even if it is not null)
      */
     @Synchronized
