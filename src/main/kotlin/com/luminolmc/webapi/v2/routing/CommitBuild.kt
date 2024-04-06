@@ -24,7 +24,7 @@ fun Application.loadCommitBuildRouteV2() {
                 val jarName = call.parameters["jar_name"]!!
                 val changesJson = call.parameters["changes"]!!
                 val releaseTag = call.parameters["release_tag"]!!
-                val sha256 = call.parameters["sha_256"]!!
+                val sha256 = call.parameters["sha256"]!!
                 val time = call.parameters["time"]!!
                 val channel = call.parameters["channel"]!!
 
