@@ -22,7 +22,7 @@ fun Application.loadCommitBuildRouteV2() {
                 val versionGroup = call.parameters["version_group"]!!
                 val version = call.parameters["version"]!!
                 val jarName = call.parameters["jar_name"]!!
-                val changesJson = call.parameters["changes"]!!
+                val changesJson = call.parameters["changes"]!!  // 这里要直接给一个json进来
                 val releaseTag = call.parameters["release_tag"]!!
                 val sha256 = call.parameters["sha256"]!!
                 val time = call.parameters["time"]!!
