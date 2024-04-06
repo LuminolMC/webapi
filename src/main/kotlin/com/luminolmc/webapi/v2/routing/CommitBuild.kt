@@ -13,7 +13,7 @@ import io.ktor.server.routing.*
 fun Application.loadCommitBuildRouteV2() {
     routing {
         route("/v2/projects/{project}/{version}/build/commit") {
-            get {
+            post {
                 if (call.parameters["token"] != ConfigManager.token) {
                     call.respond(HTTPError.FORBIDDEN.getHTTPResponse())
                 }
@@ -41,6 +41,12 @@ fun Application.loadCommitBuildRouteV2() {
                     channel = channel
                 )
                 DatabaseManager.commitBuild(build)
+                call.respond(
+                    mapOf(
+                        "code" to 200,
+                        "message" to "OK"
+                    )
+                )
             }
         }
     }
