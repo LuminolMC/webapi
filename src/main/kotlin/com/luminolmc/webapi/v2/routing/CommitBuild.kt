@@ -14,7 +14,7 @@ fun Application.loadCommitBuildRouteV2() {
     routing {
         route("/v2/projects/{project}/{version}/build/commit") {
             post {
-                if (call.parameters["token"] != ConfigManager.token) {
+                if (call.request.headers["Authorization"] != ConfigManager.token) {
                     call.respond(HTTPError.FORBIDDEN.getHTTPResponse())
                 }
 
