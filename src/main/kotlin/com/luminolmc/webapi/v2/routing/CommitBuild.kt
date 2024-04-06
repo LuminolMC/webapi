@@ -14,8 +14,8 @@ fun Application.loadCommitBuildRouteV2() {
     routing {
         route("/v2/projects/{project}/{version}/build/commit") {
             get {
-                if (call.parameters["project"] != ConfigManager.token) {
-                    call.respond(HTTPError.FORBIDDEN)
+                if (call.parameters["token"] != ConfigManager.token) {
+                    call.respond(HTTPError.FORBIDDEN.getHTTPResponse())
                 }
 
                 val project = call.parameters["project"]!!

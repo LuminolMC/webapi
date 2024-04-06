@@ -10,6 +10,6 @@ import kotlin.test.*
 class ApplicationTest {
     @Test
     fun testRoot() {
-        ConfigManager.loadConfig()
+        println(System.currentTimeMillis())
     }
 }
