@@ -140,7 +140,9 @@ object DatabaseManager {
             setString(5, Gson().toJson(build.changes))
             setString(6, build.project)
             setString(7, build.version.versionGroup)
-            setString(8, build.channel)
+            setString(8, build.version.version)
+            setString(9, build.releaseTag)
+            setString(10, build.channel)
         }
         return statement.executeUpdate()
     }
