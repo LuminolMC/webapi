@@ -9,12 +9,20 @@ object DatabaseManager {
     lateinit var conn: Connection
     lateinit var dbname: String
 
-
+    /**
+     * connect to database
+     */
     fun connect(url: String, username: String, password: String, dbname: String) {
         conn = DriverManager.getConnection(url, username, password)
         this.dbname = dbname
     }
 
+    /**
+     * Return all version group / version belongs to this project.
+     * Map structure: <project_id, List<subversion>>
+     *
+     * @param project project id
+     */
     fun getVersion(project: String): Map<String, List<String>> {
         val statement = conn.createStatement()
         val resultSet = statement.executeQuery(SQLCommand.GET_VERSION.toString())
@@ -36,6 +44,11 @@ object DatabaseManager {
         return versions
     }
 
+    /**
+     * Return all subversion belongs to this project
+     *
+     * @param project project id
+     */
     fun getSubVersion(project: String): List<String> {
         val versions = getVersion(project)
         val subVersions = emptyList<String>().toMutableList()
@@ -48,6 +61,13 @@ object DatabaseManager {
         return subVersions
     }
 
+    /**
+     * Give a subversion and this will return a version group.
+     * Return null if the subversion doesn't exist in this project
+     *
+     * @project project id
+     * @version subversion
+     */
     fun whichVersionGroup(project: String, version: String): String? {
         val versions = getVersion(project)
         versions.forEach { (t, u) ->
@@ -57,6 +77,12 @@ object DatabaseManager {
         return null
     }
 
+    /**
+     * Return all builds belongs to this version
+     *
+     * @param project project id
+     * @param version version info
+     */
     fun getAllBuild(project: String, version: Struct.Version): List<Struct.Build> {
         val versionGroup = version.versionGroup
         val versionStr = version.version
