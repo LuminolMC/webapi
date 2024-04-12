@@ -18,6 +18,32 @@ fun Application.loadCommitBuildRouteV2() {
                     call.respond(HTTPError.FORBIDDEN.getHTTPResponse())
                 }
 
+                val paramList = listOf(
+                    "project",
+                    "version_group",
+                    "version",
+                    "jar_name",
+                    "changes",
+                    "release_tag",
+                    "sha256",
+                    "time",
+                    "channel"
+                )
+                val nullList = mutableListOf<String>()
+
+
+                paramList.forEach {
+                    if (call.parameters[it] == null)
+                        nullList.add(it)
+                }
+
+                if (nullList.isNotEmpty()) {
+                    call.respond(mapOf(
+                        "code" to "400",
+                        "msg" to "param ${nullList.toString()} is not provided"
+                    ))
+                }
+
                 val project = call.parameters["project"]!!
                 val versionGroup = call.parameters["version_group"]!!
                 val version = call.parameters["version"]!!
