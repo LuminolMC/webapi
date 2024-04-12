@@ -7,6 +7,7 @@ import com.luminolmc.webapi.v2.data.Struct
 import com.luminolmc.webapi.v2.misc.HTTPError
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -18,10 +19,9 @@ fun Application.loadCommitBuildRouteV2() {
                     call.respond(HTTPError.FORBIDDEN.getHTTPResponse())
                 }
 
+
+
                 val paramList = listOf(
-                    "project",
-                    "version_group",
-                    "version",
                     "jar_name",
                     "changes",
                     "release_tag",
@@ -33,7 +33,7 @@ fun Application.loadCommitBuildRouteV2() {
 
 
                 paramList.forEach {
-                    if (call.parameters[it] == null)
+                    if (call.receiveParameters()[it] == null)
                         nullList.add(it)
                 }
 
@@ -45,14 +45,14 @@ fun Application.loadCommitBuildRouteV2() {
                 }
 
                 val project = call.parameters["project"]!!
-                val versionGroup = call.parameters["version_group"]!!
                 val version = call.parameters["version"]!!
-                val jarName = call.parameters["jar_name"]!!
-                val changesJson = call.parameters["changes"]!!  // 这里要直接给一个json进来
-                val releaseTag = call.parameters["release_tag"]!!
-                val sha256 = call.parameters["sha256"]!!
-                val time = call.parameters["time"]!!
-                val channel = call.parameters["channel"]!!
+                val jarName = call.receiveParameters()["jar_name"]!!
+                val changesJson = call.receiveParameters()["changes"]!!  // 这里要直接给一个json进来
+                val releaseTag = call.receiveParameters()["release_tag"]!!
+                val sha256 = call.receiveParameters()["sha256"]!!
+                val time = call.receiveParameters()["time"]!!
+                val channel = call.receiveParameters()["channel"]!!
+                val versionGroup = DatabaseManager.whichVersionGroup(project, version)!!
 
                 val changes = Gson().fromJson(changesJson, Array<Struct.Change>::class.java).toList()
                 val build = Struct.Build(
