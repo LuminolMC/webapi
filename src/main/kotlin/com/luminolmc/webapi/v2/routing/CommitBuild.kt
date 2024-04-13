@@ -28,41 +28,31 @@ fun Application.loadCommitBuildRouteV2() {
 suspend fun handleRequest(call: ApplicationCall) {
     if (call.request.headers["Authorization"] != ConfigManager.token) {
         call.respond(HTTPError.FORBIDDEN.getHTTPResponse())
+        return
     }
 
-    val paramList = listOf(
-        "jar_name",
-        "changes",
-        "release_tag",
-        "sha256",
-        "time",
-        "channel"
-    )
+    val params = call.receiveParameters() // Only receive parameters once
     val nullList = mutableListOf<String>()
 
-
+    val paramList = listOf("jar_name", "changes", "release_tag", "sha256", "time", "channel")
     paramList.forEach {
-        if (call.receiveParameters()[it] == null)
+        if (params[it] == null)
             nullList.add(it)
     }
 
     if (nullList.isNotEmpty()) {
-        call.respond(
-            mapOf(
-                "code" to "400",
-                "msg" to "param $nullList is not provided"
-            )
-        )
+        call.respond(HttpStatusCode.BadRequest, mapOf("code" to "400", "msg" to "param $nullList is not provided"))
+        return
     }
 
     val project = call.parameters["project"]!!
     val version = call.parameters["version"]!!
-    val jarName = call.receiveParameters()["jar_name"]!!
-    val changesJson = call.receiveParameters()["changes"]!!  // 这里要直接给一个json进来
-    val releaseTag = call.receiveParameters()["release_tag"]!!
-    val sha256 = call.receiveParameters()["sha256"]!!
-    val time = call.receiveParameters()["time"]!!
-    val channel = call.receiveParameters()["channel"]!!
+    val jarName = params["jar_name"]!!
+    val changesJson = params["changes"]!!
+    val releaseTag = params["release_tag"]!!
+    val sha256 = params["sha256"]!!
+    val time = params["time"]!!
+    val channel = params["channel"]!!
     val versionGroup = DatabaseManager.whichVersionGroup(project, version)!!
 
     val changes = Gson().fromJson(changesJson, Array<Struct.Change>::class.java).toList()
@@ -78,10 +68,6 @@ suspend fun handleRequest(call: ApplicationCall) {
         channel = channel
     )
     DatabaseManager.commitBuild(build)
-    call.respond(
-        mapOf(
-            "code" to 200,
-            "message" to "OK"
-        )
-    )
+    call.respond(HttpStatusCode.OK, mapOf("code" to 200, "message" to "OK"))
 }
+
