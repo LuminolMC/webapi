@@ -16,7 +16,6 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 
 
-
 fun main() {
     val app = embeddedServer(Netty, port = 5555, host = "0.0.0.0", module = Application::module)
     app.start(wait = true)

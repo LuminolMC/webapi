@@ -5,7 +5,7 @@ enum class HTTPError(
     private val message: String
 ) {
     NOT_FOUND(404, "Not found"),
-    FORBIDDEN(403, "Forbidden"),;
+    FORBIDDEN(403, "Forbidden"), ;
 
     override fun toString(): String {
         return message

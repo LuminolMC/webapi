@@ -1,7 +1,6 @@
 package com.luminolmc.webapi
 
 import com.luminolmc.webapi.v2.data.DatabaseManager
-import com.luminolmc.webapi.v2.data.Struct
 
 fun main(args: Array<String>) {
     ConfigManager.loadConfig()

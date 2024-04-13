@@ -19,10 +19,13 @@ fun Application.loadBuildRouteV2() {
                 val version = call.parameters["version"]!!
                 if (project !in ConfigManager.projects.keys
                     || version !in DatabaseManager.getSubVersion(project)
-                    || DatabaseManager.whichVersionGroup(project, version) == null)
+                    || DatabaseManager.whichVersionGroup(project, version) == null
+                )
                     call.respond(HTTPError.NOT_FOUND)
-                val builds = DatabaseManager.getAllBuild(project,
-                    Struct.Version(DatabaseManager.whichVersionGroup(project, version)!!, version))
+                val builds = DatabaseManager.getAllBuild(
+                    project,
+                    Struct.Version(DatabaseManager.whichVersionGroup(project, version)!!, version)
+                )
 
                 val response = mutableMapOf(
                     "code" to 200,

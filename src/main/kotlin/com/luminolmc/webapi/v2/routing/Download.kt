@@ -7,7 +7,6 @@ import com.luminolmc.webapi.v2.misc.HTTPError
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import java.awt.image.DataBufferShort
 
 fun Application.loadDownloadRouteV2() {
     routing {
@@ -20,7 +19,8 @@ fun Application.loadDownloadRouteV2() {
 
                 if (project !in ConfigManager.projects.keys
                     || version !in DatabaseManager.getSubVersion(project)
-                    || DatabaseManager.whichVersionGroup(project, version) == null)
+                    || DatabaseManager.whichVersionGroup(project, version) == null
+                )
                     call.respond(HTTPError.NOT_FOUND)
 
                 val repo = ConfigManager.projects[project]!![1]

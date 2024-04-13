@@ -13,7 +13,7 @@ fun Application.loadProjectRouteV2() {
         route("v2/projects") {
             get {
                 val projects = emptyList<Struct.Project>().toMutableList()
-                ConfigManager.projects.forEach{(t, u) ->
+                ConfigManager.projects.forEach { (t, u) ->
                     val project = Struct.Project(
                         id = t,
                         name = u[0],
@@ -29,7 +29,7 @@ fun Application.loadProjectRouteV2() {
             get {
                 val project = call.parameters["project"]
                 if (project !in ConfigManager.projects) {
-                   call.respond(HTTPError.NOT_FOUND.getHTTPResponse())
+                    call.respond(HTTPError.NOT_FOUND.getHTTPResponse())
                 }
                 val versions = DatabaseManager.getVersion(project!!)
                 val response = mutableMapOf(

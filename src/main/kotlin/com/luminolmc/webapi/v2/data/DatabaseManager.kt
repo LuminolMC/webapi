@@ -94,7 +94,8 @@ object DatabaseManager {
             if (resultSet.getString("version_group") != versionGroup
                 || resultSet.getString("version_group") != version.versionGroup
                 || resultSet.getString("version") != version.version
-                || resultSet.getString("project") != project)
+                || resultSet.getString("project") != project
+            )
                 continue
             resultSet.apply {
                 val build = Struct.Build(
